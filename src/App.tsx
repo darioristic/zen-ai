@@ -41,11 +41,12 @@ import {
   Maximize2,
   ExternalLink,
   Zap,
-  ChevronRight
+  ChevronRight,
+  Eye
 } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'chat' | 'search' | 'library' | 'meetings' | 'settings' | 'help' | 'upgrade' | 'uploads' | 'docs' | 'agents' | 'integrations' | 'conversation-detail' | 'conversations'>('chat');
+  const [currentView, setCurrentView] = useState<'chat' | 'search' | 'library' | 'meetings' | 'settings' | 'help' | 'upgrade' | 'uploads' | 'docs' | 'agents' | 'integrations' | 'conversation-detail' | 'conversations' | 'visual-consistency-review'>('chat');
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-bg-main text-text-primary">
@@ -98,6 +99,13 @@ export default function App() {
           >
             <History size={18} className="text-text-secondary/70" />
             <span>Conversations</span>
+          </div>
+          <div 
+            className={`sidebar-item ${currentView === 'visual-consistency-review' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('visual-consistency-review')}
+          >
+            <Eye size={18} className="text-text-secondary/70" />
+            <span>Visual consistency review</span>
           </div>
 
           <div className="mt-8 mb-2 px-3 text-[11px] font-semibold text-text-secondary/60 uppercase tracking-wider flex items-center gap-2">
@@ -1074,6 +1082,104 @@ export default function App() {
               </div>
             </div>
           </div>
+        ) : currentView === 'visual-consistency-review' ? (
+          <div className="flex-1 flex flex-col bg-bg-main text-text-primary overflow-hidden">
+            <div className="flex-1 overflow-y-auto custom-scrollbar">
+              <div className="max-w-[800px] mx-auto py-12 px-6 space-y-12">
+                {/* User Message with Doc */}
+                <div className="flex flex-col items-end space-y-4">
+                  <div className="flex items-center gap-3 bg-white border border-black/5 rounded-xl p-3 w-fit shadow-sm">
+                    <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center">
+                      <FileText size={18} className="text-blue-600" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[13px] font-medium text-text-primary">Ponudba_2025_2909_2_T2cloud_26082025.docx</span>
+                      <span className="text-[11px] text-text-secondary/40">Microsoft Word</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-[#F5DDCB] p-5 rounded-2xl text-[15px] leading-relaxed max-w-[600px] text-text-primary shadow-sm">
+                      zelim da unapredim i istaknem prednosti T-2 slovenackog cloud provajdera u odnosu na http://hetzner.com i da nadogradim ponudu za buducnosti sa vise informacija koje mogu biti korisne
+                    </div>
+                    <div className="w-8 h-8 bg-[#D46B4B] rounded-full flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0">
+                      D
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Response */}
+                <div className="space-y-8">
+                  <p className="text-[16px] leading-relaxed text-text-primary/80">
+                    Da biste unapredili i istakli prednosti T-2 slovenskog cloud provajdera u odnosu na Hetzner, kao i da nadogradite ponudu za budućnost, važno je jasno komunicirati specifične prednosti T-2 Clouda, adresirati tipične slabosti velikih internacionalnih provajdera poput Hetznera, i ponuditi dodatne informacije koje su korisne za potencijalne korisnike.
+                  </p>
+
+                  <div className="h-px bg-black/5" />
+
+                  <div className="space-y-8">
+                    <h2 className="text-xl font-bold text-text-primary">Ključne prednosti T-2 Clouda u odnosu na Hetzner</h2>
+                    
+                    <div className="space-y-6">
+                      <div className="space-y-3">
+                        <h3 className="text-[17px] font-bold text-text-primary">1. Lokalna podrška i jezik</h3>
+                        <ul className="space-y-3 list-disc pl-5 text-[15px] text-text-secondary/70">
+                          <li>T-2 nudi direktnu podršku na slovenačkom jeziku, što je velika prednost za domaće firme i korisnike kojima je važna komunikacija bez jezičkih barijera.</li>
+                          <li>Hetzner podrška je internacionalna, uglavnom na engleskom ili nemačkom jeziku.</li>
+                        </ul>
+                      </div>
+
+                      <div className="space-y-3">
+                        <h3 className="text-[17px] font-bold text-text-primary">2. Fizička lokacija i suverenitet podataka</h3>
+                        <ul className="space-y-3 list-disc pl-5 text-[15px] text-text-secondary/70">
+                          <li>T-2 Cloud se nalazi isključivo na teritoriji Republike Slovenije, što znači da su svi podaci podložni slovenačkim zakonima i regulativama, što je ključno za kompanije koje zahtevaju lokalni data suverenitet.</li>
+                          <li>Hetzner ima data centre u Nemačkoj, Finskoj, SAD i Singapuru, što može biti izazov za korisnike kojima...</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Chat Input Bar */}
+            <div className="p-6 bg-gradient-to-t from-bg-main to-transparent">
+              <div className="max-w-[800px] mx-auto space-y-4">
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/40">
+                    <Zap size={18} />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="What would you like to do?"
+                    className="w-full bg-white border border-black/5 rounded-2xl py-4 pl-12 pr-14 text-[15px] focus:outline-none focus:border-black/10 transition-colors shadow-sm"
+                  />
+                  <button className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/5 rounded-xl flex items-center justify-center text-text-secondary/40 hover:text-text-primary transition-colors">
+                    <ArrowUp size={20} />
+                  </button>
+                </div>
+                
+                <div className="flex items-center justify-between px-2">
+                  <div className="flex items-center gap-6">
+                    <button className="flex items-center gap-2 text-[13px] text-text-secondary/40 hover:text-text-primary transition-colors">
+                      <Plus size={16} />
+                      <span>Create</span>
+                    </button>
+                    <button className="flex items-center gap-2 text-[13px] text-text-secondary/40 hover:text-text-primary transition-colors">
+                      <Library size={16} />
+                      <span>Sources</span>
+                    </button>
+                  </div>
+                  <button className="flex items-center gap-2 text-[13px] text-text-secondary/40 hover:text-text-primary transition-colors">
+                    <LayoutGrid size={16} />
+                    <span>Default</span>
+                  </button>
+                </div>
+
+                <p className="text-[11px] text-text-secondary/20 text-center pt-2">
+                  Zenith can make mistakes. Double check important info.
+                </p>
+              </div>
+            </div>
+          </div>
         ) : currentView === 'settings' ? (
           <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
             <div className="max-w-3xl mx-auto w-full pt-12 space-y-12">
@@ -1281,20 +1387,20 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar bg-white">
             <div className="max-w-5xl mx-auto w-full pt-12 space-y-12 pb-20">
               <div className="space-y-4 text-center">
-                <h1 className="text-4xl font-semibold tracking-tight">Choose your plan</h1>
+                <h1 className="text-4xl font-semibold tracking-tight text-text-primary">Choose your plan</h1>
                 <p className="text-text-secondary/60 text-lg">Unlock the full potential of Zenith with our premium features.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 {/* Free Plan */}
-                <div className="bg-white rounded-[32px] border border-black/5 p-8 flex flex-col shadow-sm">
+                <div className="bg-white rounded-[32px] border border-black/5 p-8 flex flex-col shadow-sm hover:shadow-md transition-shadow">
                   <div className="space-y-2 mb-8">
-                    <h3 className="text-xl font-semibold">Zenith Free</h3>
+                    <h3 className="text-xl font-semibold text-text-primary">Zenith Free</h3>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold">$0</span>
+                      <span className="text-4xl font-bold text-text-primary">$0</span>
                       <span className="text-text-secondary/60 text-sm">/month</span>
                     </div>
                     <p className="text-sm text-text-secondary/60">Perfect for individuals just getting started.</p>
@@ -1308,7 +1414,7 @@ export default function App() {
                       'Basic tools & library',
                       'Web access'
                     ].map((feature) => (
-                      <div key={feature} className="flex items-center gap-3 text-sm">
+                      <div key={feature} className="flex items-center gap-3 text-sm text-text-primary/80">
                         <div className="w-5 h-5 rounded-full bg-bg-main flex items-center justify-center flex-shrink-0">
                           <Plus size={12} className="text-text-secondary/60" />
                         </div>
@@ -1323,15 +1429,15 @@ export default function App() {
                 </div>
 
                 {/* Pro Plan */}
-                <div className="bg-white rounded-[32px] border-2 border-[#D9B9A0] p-8 flex flex-col shadow-[0_20px_50px_rgba(217,185,160,0.15)] relative overflow-hidden">
+                <div className="bg-white rounded-[32px] border-2 border-[#D9B9A0] p-8 flex flex-col shadow-[0_20px_50px_rgba(217,185,160,0.15)] relative overflow-hidden hover:shadow-[0_20px_50px_rgba(217,185,160,0.25)] transition-shadow">
                   <div className="absolute top-0 right-0 bg-[#D9B9A0] text-white px-4 py-1.5 rounded-bl-2xl text-[11px] font-bold uppercase tracking-wider">
                     Most Popular
                   </div>
                   
                   <div className="space-y-2 mb-8">
-                    <h3 className="text-xl font-semibold">Zenith Pro</h3>
+                    <h3 className="text-xl font-semibold text-text-primary">Zenith Pro</h3>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold">$20</span>
+                      <span className="text-4xl font-bold text-text-primary">$20</span>
                       <span className="text-text-secondary/60 text-sm">/month</span>
                     </div>
                     <p className="text-sm text-text-secondary/60">Advanced features for power users and professionals.</p>
@@ -1347,7 +1453,7 @@ export default function App() {
                       'Priority support',
                       'Custom style directions'
                     ].map((feature) => (
-                      <div key={feature} className="flex items-center gap-3 text-sm">
+                      <div key={feature} className="flex items-center gap-3 text-sm text-text-primary/90">
                         <div className="w-5 h-5 rounded-full bg-[#F5DDCB] flex items-center justify-center flex-shrink-0">
                           <ArrowUpCircle size={12} className="text-text-primary" />
                         </div>
@@ -1364,14 +1470,14 @@ export default function App() {
 
               {/* Comparison Table */}
               <div className="space-y-8 pt-12">
-                <h3 className="text-2xl font-semibold text-center">Compare features</h3>
+                <h3 className="text-2xl font-semibold text-center text-text-primary">Compare features</h3>
                 <div className="bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-bg-main/50">
-                        <th className="p-6 text-sm font-semibold text-text-secondary/60 uppercase tracking-wider">Feature</th>
-                        <th className="p-6 text-sm font-semibold text-text-secondary/60 uppercase tracking-wider text-center w-40">Free</th>
-                        <th className="p-6 text-sm font-semibold text-text-secondary/60 uppercase tracking-wider text-center w-40">Pro</th>
+                      <tr className="bg-bg-main/30">
+                        <th className="p-6 text-sm font-semibold text-text-secondary/60 uppercase tracking-wider border-b border-black/[0.03]">Feature</th>
+                        <th className="p-6 text-sm font-semibold text-text-secondary/60 uppercase tracking-wider text-center w-40 border-b border-black/[0.03]">Free</th>
+                        <th className="p-6 text-sm font-semibold text-text-secondary/60 uppercase tracking-wider text-center w-40 border-b border-black/[0.03]">Pro</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-black/[0.03]">
@@ -1383,8 +1489,8 @@ export default function App() {
                         { name: 'File Uploads', free: 'Up to 5MB', pro: 'Up to 100MB' },
                         { name: 'API Access', free: 'No', pro: 'Yes' }
                       ].map((row) => (
-                        <tr key={row.name} className="hover:bg-bg-main/20 transition-colors">
-                          <td className="p-6 text-[15px] font-medium">{row.name}</td>
+                        <tr key={row.name} className="hover:bg-bg-main/10 transition-colors">
+                          <td className="p-6 text-[15px] font-medium text-text-primary">{row.name}</td>
                           <td className="p-6 text-[14px] text-text-secondary/60 text-center">{row.free}</td>
                           <td className="p-6 text-[14px] text-text-primary font-medium text-center">{row.pro}</td>
                         </tr>
