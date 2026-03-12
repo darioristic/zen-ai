@@ -100,13 +100,6 @@ export default function App() {
             <History size={18} className="text-text-secondary/70" />
             <span>Conversations</span>
           </div>
-          <div 
-            className={`sidebar-item ${currentView === 'visual-consistency-review' ? 'sidebar-item-active' : ''}`}
-            onClick={() => setCurrentView('visual-consistency-review')}
-          >
-            <Eye size={18} className="text-text-secondary/70" />
-            <span>Visual consistency review</span>
-          </div>
 
           <div className="mt-8 mb-2 px-3 text-[11px] font-semibold text-text-secondary/60 uppercase tracking-wider flex items-center gap-2">
             <MoreHorizontal size={12} />
@@ -163,7 +156,10 @@ export default function App() {
             <Pin size={12} />
             Pinned
           </div>
-          <div className="sidebar-item">
+          <div 
+            className={`sidebar-item ${currentView === 'visual-consistency-review' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('visual-consistency-review')}
+          >
             <span className="truncate">Visual consistency review</span>
           </div>
           <div className="sidebar-item">
