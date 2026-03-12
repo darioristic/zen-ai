@@ -32,11 +32,15 @@ import {
   Video,
   Clock,
   Calendar,
-  Users
+  Users,
+  Folder,
+  FileText,
+  Contact,
+  Puzzle
 } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'chat' | 'search' | 'library' | 'meetings' | 'settings' | 'help' | 'upgrade'>('chat');
+  const [currentView, setCurrentView] = useState<'chat' | 'search' | 'library' | 'meetings' | 'settings' | 'help' | 'upgrade' | 'uploads' | 'docs' | 'agents' | 'integrations'>('chat');
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-bg-main text-text-primary">
@@ -82,6 +86,57 @@ export default function App() {
           >
             <Video size={18} className="text-text-secondary/70" />
             <span>Meetings</span>
+          </div>
+
+          <div className="mt-8 mb-2 px-3 text-[11px] font-semibold text-text-secondary/60 uppercase tracking-wider flex items-center gap-2">
+            <MoreHorizontal size={12} />
+            More
+          </div>
+          <div 
+            className={`sidebar-item ${currentView === 'uploads' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('uploads')}
+          >
+            <Folder size={18} className="text-text-secondary/70" />
+            <span>File uploads</span>
+          </div>
+          <div 
+            className={`sidebar-item ${currentView === 'docs' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('docs')}
+          >
+            <FileText size={18} className="text-text-secondary/70" />
+            <span>Docs</span>
+          </div>
+          <div 
+            className={`sidebar-item ${currentView === 'agents' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('agents')}
+          >
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3">
+                <Contact size={18} className="text-text-secondary/70" />
+                <span>Agents</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-medium bg-black/[0.03] border border-black/[0.05] rounded">⌘</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-medium bg-black/[0.03] border border-black/[0.05] rounded">⇧</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-medium bg-black/[0.03] border border-black/[0.05] rounded">A</kbd>
+              </div>
+            </div>
+          </div>
+          <div 
+            className={`sidebar-item ${currentView === 'integrations' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('integrations')}
+          >
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3">
+                <Puzzle size={18} className="text-text-secondary/70" />
+                <span>Integrations</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-medium bg-black/[0.03] border border-black/[0.05] rounded">⌘</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-medium bg-black/[0.03] border border-black/[0.05] rounded">⇧</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-medium bg-black/[0.03] border border-black/[0.05] rounded">I</kbd>
+              </div>
+            </div>
           </div>
 
           <div className="mt-8 mb-2 px-3 text-[11px] font-semibold text-text-secondary/60 uppercase tracking-wider flex items-center gap-2">
@@ -554,6 +609,154 @@ export default function App() {
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        ) : currentView === 'uploads' ? (
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+            <div className="max-w-6xl mx-auto w-full pt-12 space-y-10 pb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-semibold tracking-tight">File uploads</h1>
+                  <p className="text-text-secondary/60">Manage your uploaded files and use them in your chats.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button className="px-5 py-2.5 bg-text-primary text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-sm flex items-center gap-2">
+                    <Plus size={18} />
+                    <span>Upload File</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { name: 'Q1_Report.pdf', size: '2.4 MB', date: 'Today', type: 'PDF' },
+                  { name: 'Brand_Assets.zip', size: '45.8 MB', date: 'Yesterday', type: 'Archive' },
+                  { name: 'Product_Specs.docx', size: '1.2 MB', date: '2 days ago', type: 'DOCX' },
+                  { name: 'UI_Mockups.png', size: '8.5 MB', date: '3 days ago', type: 'Image' }
+                ].map((file) => (
+                  <div key={file.name} className="bg-white p-6 rounded-[24px] border border-black/5 hover:shadow-lg hover:shadow-black/[0.02] transition-all cursor-pointer group relative">
+                    <div className="w-12 h-12 bg-bg-main rounded-2xl flex items-center justify-center mb-5 group-hover:bg-[#F5DDCB] transition-colors">
+                      <Folder size={24} className="text-text-secondary/60" />
+                    </div>
+                    <h4 className="font-semibold text-[15px] mb-1 truncate">{file.name}</h4>
+                    <div className="flex items-center justify-between text-[11px] text-text-secondary/40">
+                      <span>{file.size}</span>
+                      <span>{file.date}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : currentView === 'docs' ? (
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+            <div className="max-w-6xl mx-auto w-full pt-12 space-y-10 pb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-semibold tracking-tight">Docs</h1>
+                  <p className="text-text-secondary/60">Create and manage documents generated by Zenith.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button className="px-5 py-2.5 bg-text-primary text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-sm flex items-center gap-2">
+                    <Plus size={18} />
+                    <span>New Doc</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {[
+                  { title: 'Project Roadmap 2026', lastEdited: '2 hours ago', author: 'You' },
+                  { title: 'Technical Specification', lastEdited: 'Yesterday', author: 'Zenith AI' },
+                  { title: 'Meeting Notes: Design Sync', lastEdited: '3 days ago', author: 'You' }
+                ].map((doc) => (
+                  <div key={doc.title} className="bg-white p-6 rounded-[24px] border border-black/5 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 bg-bg-main rounded-xl flex items-center justify-center text-text-secondary/40 group-hover:bg-[#F5DDCB] group-hover:text-text-primary transition-colors">
+                        <FileText size={20} />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-text-primary">{doc.title}</h4>
+                        <p className="text-xs text-text-secondary/40">Edited {doc.lastEdited} • by {doc.author}</p>
+                      </div>
+                    </div>
+                    <button className="p-2 text-text-secondary/20 hover:text-text-primary transition-colors">
+                      <MoreHorizontal size={20} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : currentView === 'agents' ? (
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+            <div className="max-w-6xl mx-auto w-full pt-12 space-y-10 pb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-semibold tracking-tight">Agents</h1>
+                  <p className="text-text-secondary/60">Discover and deploy specialized AI agents for your tasks.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button className="px-5 py-2.5 bg-text-primary text-white rounded-xl font-medium hover:opacity-90 transition-opacity shadow-sm flex items-center gap-2">
+                    <Plus size={18} />
+                    <span>Create Agent</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[
+                  { name: 'Code Reviewer', desc: 'Expert in React and Node.js code analysis.', users: '12k' },
+                  { name: 'Copywriter Pro', desc: 'Generates high-converting marketing copy.', users: '8.5k' },
+                  { name: 'Data Analyst', desc: 'Visualizes and interprets complex datasets.', users: '5.2k' }
+                ].map((agent) => (
+                  <div key={agent.name} className="bg-white p-8 rounded-[32px] border border-black/5 hover:shadow-xl hover:shadow-black/[0.02] transition-all cursor-pointer group">
+                    <div className="w-14 h-14 bg-bg-main rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#F5DDCB] transition-colors">
+                      <Contact size={28} className="text-text-secondary/60" />
+                    </div>
+                    <h4 className="font-semibold text-xl mb-2">{agent.name}</h4>
+                    <p className="text-sm text-text-secondary/60 mb-6 leading-relaxed">{agent.desc}</p>
+                    <div className="flex items-center justify-between pt-6 border-t border-black/[0.02]">
+                      <span className="text-xs font-medium text-text-secondary/40">{agent.users} active users</span>
+                      <button className="text-sm font-semibold text-text-primary hover:underline">Deploy</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : currentView === 'integrations' ? (
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+            <div className="max-w-6xl mx-auto w-full pt-12 space-y-10 pb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-semibold tracking-tight">Integrations</h1>
+                  <p className="text-text-secondary/60">Connect Zenith with your favorite tools and workflows.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { name: 'Slack', status: 'Connected', icon: '💬' },
+                  { name: 'GitHub', status: 'Not connected', icon: '🐙' },
+                  { name: 'Google Drive', status: 'Connected', icon: '📁' },
+                  { name: 'Notion', status: 'Not connected', icon: '📝' },
+                  { name: 'Jira', status: 'Not connected', icon: '📊' },
+                  { name: 'Discord', status: 'Not connected', icon: '🎮' },
+                  { name: 'Trello', status: 'Not connected', icon: '📋' },
+                  { name: 'Figma', status: 'Connected', icon: '🎨' }
+                ].map((app) => (
+                  <div key={app.name} className="bg-white p-6 rounded-[24px] border border-black/5 hover:shadow-md transition-all cursor-pointer flex flex-col items-center text-center group">
+                    <div className="text-4xl mb-4 grayscale group-hover:grayscale-0 transition-all transform group-hover:scale-110">
+                      {app.icon}
+                    </div>
+                    <h4 className="font-semibold text-text-primary mb-1">{app.name}</h4>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider ${app.status === 'Connected' ? 'text-emerald-500' : 'text-text-secondary/30'}`}>
+                      {app.status}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
