@@ -1,5 +1,0 @@
-docker-start:
-	docker compose up --build
-
-docker-stop:
-	docker compose down
