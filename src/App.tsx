@@ -33,6 +33,8 @@ import {
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'chat' | 'search' | 'settings'>('chat');
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isHeaderMenuOpen, setIsHeaderMenuOpen] = useState(false);
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-bg-main text-text-primary">
@@ -113,38 +115,46 @@ export default function App() {
           </div>
         </nav>
 
-        <div className="mt-auto pt-4 space-y-1">
-          <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 overflow-hidden p-1">
-            <div 
-              className={`sidebar-item ${currentView === 'settings' ? 'sidebar-item-active' : ''}`}
-              onClick={() => setCurrentView('settings')}
-            >
-              <Settings size={18} className="text-text-secondary/70" />
-              <span>Settings</span>
+        <div className="mt-auto pt-4 relative">
+          {isProfileMenuOpen && (
+            <div className="absolute bottom-full left-0 w-full mb-2 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-black/5 overflow-hidden p-1 z-50">
+              <div 
+                className={`sidebar-item ${currentView === 'settings' ? 'sidebar-item-active' : ''}`}
+                onClick={() => {
+                  setCurrentView('settings');
+                  setIsProfileMenuOpen(false);
+                }}
+              >
+                <Settings size={18} className="text-text-secondary/70" />
+                <span>Settings</span>
+              </div>
+              <div className="sidebar-item">
+                <HelpCircle size={18} className="text-text-secondary/70" />
+                <span>Get help</span>
+              </div>
+              <div className="sidebar-item">
+                <ArrowUpCircle size={18} className="text-text-secondary/70" />
+                <span>Upgrade plan</span>
+              </div>
+              <div className="sidebar-item bg-[#F5F3ED]">
+                <Gift size={18} className="text-text-secondary/70" />
+                <span>Gift Zenith</span>
+              </div>
+              <div className="sidebar-item">
+                <Download size={18} className="text-text-secondary/70" />
+                <span>Download Zenith for Mac</span>
+              </div>
+              <div className="sidebar-item">
+                <LogOut size={18} className="text-text-secondary/70" />
+                <span>Log out</span>
+              </div>
             </div>
-            <div className="sidebar-item">
-              <HelpCircle size={18} className="text-text-secondary/70" />
-              <span>Get help</span>
-            </div>
-            <div className="sidebar-item">
-              <ArrowUpCircle size={18} className="text-text-secondary/70" />
-              <span>Upgrade plan</span>
-            </div>
-            <div className="sidebar-item bg-[#F5F3ED]">
-              <Gift size={18} className="text-text-secondary/70" />
-              <span>Gift Zenith</span>
-            </div>
-            <div className="sidebar-item">
-              <Download size={18} className="text-text-secondary/70" />
-              <span>Download Zenith for Mac</span>
-            </div>
-            <div className="sidebar-item">
-              <LogOut size={18} className="text-text-secondary/70" />
-              <span>Log out</span>
-            </div>
-          </div>
+          )}
 
-          <div className="flex items-center gap-3 p-3 mt-2">
+          <div 
+            className="flex items-center gap-3 p-3 mt-2 rounded-xl hover:bg-sidebar-item-hover cursor-pointer transition-colors"
+            onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+          >
             <img 
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" 
               alt="User" 
@@ -176,28 +186,33 @@ export default function App() {
                   <span>Share</span>
                 </button>
                 <div className="relative">
-                  <button className="text-text-secondary/60 hover:text-text-primary transition-colors">
+                  <button 
+                    className="text-text-secondary/60 hover:text-text-primary transition-colors"
+                    onClick={() => setIsHeaderMenuOpen(!isHeaderMenuOpen)}
+                  >
                     <MoreHorizontal size={20} />
                   </button>
                   
                   {/* Dropdown Menu */}
-                  <div className="absolute right-0 top-9 w-[160px] bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-black/5 py-1.5 z-50">
-                    <div className="flex items-center justify-between px-4 py-2 hover:bg-bg-main cursor-pointer text-[13px] font-medium">
-                      <div className="flex items-center gap-3">
-                        <Archive size={16} className="text-text-secondary/70" />
-                        <span>Archive</span>
+                  {isHeaderMenuOpen && (
+                    <div className="absolute right-0 top-9 w-[160px] bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-black/5 py-1.5 z-50">
+                      <div className="flex items-center justify-between px-4 py-2 hover:bg-bg-main cursor-pointer text-[13px] font-medium">
+                        <div className="flex items-center gap-3">
+                          <Archive size={16} className="text-text-secondary/70" />
+                          <span>Archive</span>
+                        </div>
+                        <Hand size={14} className="text-text-secondary/40 rotate-12" />
                       </div>
-                      <Hand size={14} className="text-text-secondary/40 rotate-12" />
+                      <div className="flex items-center gap-3 px-4 py-2 hover:bg-bg-main cursor-pointer text-[13px] font-medium">
+                        <Flag size={16} className="text-text-secondary/70" />
+                        <span>Report</span>
+                      </div>
+                      <div className="flex items-center gap-3 px-4 py-2 hover:bg-bg-main cursor-pointer text-[13px] font-medium text-text-primary">
+                        <Trash2 size={16} className="text-text-secondary/70" />
+                        <span>Delete</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 px-4 py-2 hover:bg-bg-main cursor-pointer text-[13px] font-medium">
-                      <Flag size={16} className="text-text-secondary/70" />
-                      <span>Report</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-4 py-2 hover:bg-bg-main cursor-pointer text-[13px] font-medium text-text-primary">
-                      <Trash2 size={16} className="text-text-secondary/70" />
-                      <span>Delete</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </header>
