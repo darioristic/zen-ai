@@ -36,11 +36,16 @@ import {
   Folder,
   FileText,
   Contact,
-  Puzzle
+  Puzzle,
+  X,
+  Maximize2,
+  ExternalLink,
+  Zap,
+  ChevronRight
 } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'chat' | 'search' | 'library' | 'meetings' | 'settings' | 'help' | 'upgrade' | 'uploads' | 'docs' | 'agents' | 'integrations'>('chat');
+  const [currentView, setCurrentView] = useState<'chat' | 'search' | 'library' | 'meetings' | 'settings' | 'help' | 'upgrade' | 'uploads' | 'docs' | 'agents' | 'integrations' | 'conversation-detail' | 'conversations'>('chat');
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-bg-main text-text-primary">
@@ -86,6 +91,13 @@ export default function App() {
           >
             <Video size={18} className="text-text-secondary/70" />
             <span>Meetings</span>
+          </div>
+          <div 
+            className={`sidebar-item ${currentView === 'conversations' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('conversations')}
+          >
+            <History size={18} className="text-text-secondary/70" />
+            <span>Conversations</span>
           </div>
 
           <div className="mt-8 mb-2 px-3 text-[11px] font-semibold text-text-secondary/60 uppercase tracking-wider flex items-center gap-2">
@@ -157,7 +169,10 @@ export default function App() {
           <div className="sidebar-item">
             <span>Today</span>
           </div>
-          <div className="sidebar-item">
+          <div 
+            className={`sidebar-item ${currentView === 'conversation-detail' ? 'sidebar-item-active' : ''}`}
+            onClick={() => setCurrentView('conversation-detail')}
+          >
             <span className="truncate">Make this UI clearer</span>
           </div>
           <div className="sidebar-item">
@@ -757,6 +772,305 @@ export default function App() {
                     </span>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        ) : currentView === 'conversations' ? (
+          <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar">
+            <div className="max-w-6xl mx-auto w-full pt-12 space-y-10 pb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-2">
+                  <h1 className="text-4xl font-semibold tracking-tight">Conversations</h1>
+                  <p className="text-text-secondary/60">Access and manage all your past AI conversations.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary/40" size={18} />
+                    <input 
+                      type="text" 
+                      placeholder="Search conversations..."
+                      className="bg-white border border-black/5 rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-0 focus:border-black/10 transition-all w-64"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-xs font-semibold text-text-secondary/60 uppercase tracking-widest px-1">Today</h3>
+                  <div className="grid grid-cols-1 gap-3">
+                    {[
+                      { title: 'Make this UI clearer', preview: 'Find my doc about our strategy in Google Drive...', date: '09:40 AM', pinned: true },
+                      { title: 'Visual consistency review', preview: 'Can you check if the colors are consistent?', date: '08:15 AM', pinned: true },
+                      { title: 'Content style direction', preview: 'I need a new tone of voice for our brand...', date: '07:30 AM', pinned: false }
+                    ].map((chat) => (
+                      <div 
+                        key={chat.title} 
+                        className="bg-white p-5 rounded-[24px] border border-black/5 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
+                        onClick={() => setCurrentView('conversation-detail')}
+                      >
+                        <div className="flex items-center gap-4 min-w-0">
+                          <div className="w-10 h-10 bg-bg-main rounded-xl flex items-center justify-center text-text-secondary/40 group-hover:bg-[#F5DDCB] group-hover:text-text-primary transition-colors">
+                            <History size={20} />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-semibold text-text-primary truncate">{chat.title}</h4>
+                              {chat.pinned && <Pin size={12} className="text-text-secondary/40" />}
+                            </div>
+                            <p className="text-xs text-text-secondary/40 truncate">{chat.preview}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="text-[11px] text-text-secondary/30">{chat.date}</span>
+                          <button className="p-2 text-text-secondary/20 hover:text-text-primary transition-colors opacity-0 group-hover:opacity-100">
+                            <MoreHorizontal size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-4">
+                  <h3 className="text-xs font-semibold text-text-secondary/60 uppercase tracking-widest px-1">Yesterday</h3>
+                  <div className="grid grid-cols-1 gap-3">
+                    {[
+                      { title: 'React Component Library', preview: 'How do I structure a reusable component?', date: 'Mar 11' },
+                      { title: 'Marketing Strategy 2026', preview: 'Let\'s brainstorm some ideas for Q1...', date: 'Mar 11' }
+                    ].map((chat) => (
+                      <div key={chat.title} className="bg-white p-5 rounded-[24px] border border-black/5 hover:shadow-md transition-all cursor-pointer flex items-center justify-between group">
+                        <div className="flex items-center gap-4 min-w-0">
+                          <div className="w-10 h-10 bg-bg-main rounded-xl flex items-center justify-center text-text-secondary/40 group-hover:bg-[#F5DDCB] group-hover:text-text-primary transition-colors">
+                            <History size={20} />
+                          </div>
+                          <div className="min-w-0">
+                            <h4 className="font-semibold text-text-primary truncate">{chat.title}</h4>
+                            <p className="text-xs text-text-secondary/40 truncate">{chat.preview}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="text-[11px] text-text-secondary/30">{chat.date}</span>
+                          <button className="p-2 text-text-secondary/20 hover:text-text-primary transition-colors opacity-0 group-hover:opacity-100">
+                            <MoreHorizontal size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : currentView === 'conversation-detail' ? (
+          <div className="flex-1 flex overflow-hidden bg-bg-main text-text-primary">
+            {/* Left Chat Column */}
+            <div className="w-[400px] flex flex-col border-r border-black/5">
+              <header className="h-14 flex items-center justify-between px-4 border-b border-black/5">
+                <div className="flex items-center gap-2 text-sm font-medium text-text-secondary/60 hover:text-text-primary cursor-pointer transition-colors">
+                  <span>All</span>
+                  <ChevronDown size={14} />
+                </div>
+                <button className="text-xs font-medium px-3 py-1 bg-black/5 hover:bg-black/10 rounded-lg transition-colors text-text-secondary">
+                  Help
+                </button>
+              </header>
+
+              <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar">
+                {/* User Message */}
+                <div className="flex justify-end">
+                  <div className="max-w-[85%] bg-[#F5DDCB] p-4 rounded-2xl text-[14px] leading-relaxed relative text-text-primary shadow-sm">
+                    Find my doc about our strategy in Google Drive, identify weak points, and write an improved version in a new doc
+                    <div className="absolute -right-8 top-0 w-6 h-6 bg-[#D46B4B] rounded-full flex items-center justify-center text-[10px] font-bold text-white">
+                      D
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Response Section */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-[13px] font-medium text-text-secondary/40">
+                    <span>Done</span>
+                    <ChevronRight size={14} />
+                  </div>
+
+                  {/* Document Card */}
+                  <div className="bg-white border border-black/5 rounded-2xl p-4 flex gap-4 hover:bg-bg-main transition-colors cursor-pointer group shadow-sm">
+                    <div className="w-12 h-12 bg-bg-main rounded-lg flex items-center justify-center border border-black/5">
+                      <FileText size={24} className="text-text-secondary/40" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-[14px] font-semibold text-text-primary truncate">Business strategy 2025 - Improved Version</h4>
+                      <p className="text-[12px] text-text-secondary/40 mt-0.5">Updated today at 09:40</p>
+                      <p className="text-[12px] text-text-secondary/60 mt-2 line-clamp-2 leading-snug">
+                        This document provides a focused, execution-ready strategy for 2025. It keep...
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6 text-[14px] leading-relaxed text-text-primary/90">
+                    <p>Here's what I've done and what you have now:</p>
+                    
+                    <div className="space-y-3">
+                      <h3 className="font-bold text-text-primary">1. Which doc I used</h3>
+                      <p className="text-text-secondary/60">I located your main strategy file:</p>
+                      <div className="pl-4 space-y-2">
+                        <div className="flex items-start gap-2">
+                          <span className="text-text-secondary/40">•</span>
+                          <div>
+                            <span className="font-bold text-text-primary">"Business strategy 2025.docx"</span>
+                            <span className="text-text-secondary/40 ml-1">(Author: Dario Ristic, Cloud Native d.o.o.)</span>
+                          </div>
+                        </div>
+                        <div className="ml-4 px-2 py-0.5 bg-black/5 rounded text-[10px] font-medium text-text-secondary/40 inline-block">
+                          Business strategy 2025
+                        </div>
+                      </div>
+                    </div>
+
+                    <p className="text-text-secondary/60">
+                      I read through its content (market analysis, services, marketing & sales, pricing, etc.) to understand your current strategy and structure.
+                    </p>
+
+                    <div className="space-y-3">
+                      <h3 className="font-bold text-text-primary">2. Main weak points I identified</h3>
+                      <div className="space-y-4">
+                        <div className="space-y-1">
+                          <p className="font-medium text-text-primary">1) Too broad, reads like a textbook</p>
+                          <p className="text-text-secondary/60">
+                            The document contains very detailed industry and market explanations (global cloud-native trends, TAM numbers, broad EU stats, etc.). 
+                            <span className="ml-2 px-1.5 py-0.5 bg-black/5 rounded text-[10px] font-medium text-text-secondary/40">Business strategy 2025</span>
+                            <span className="ml-2">These are useful...</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chat Input */}
+              <div className="p-4 border-t border-black/5">
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/40">
+                    <Zap size={16} />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="What would you like to do?"
+                    className="w-full bg-white border border-black/5 rounded-2xl py-3 pl-11 pr-12 text-[14px] focus:outline-none focus:border-black/10 transition-colors shadow-sm"
+                  />
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/5 rounded-xl flex items-center justify-center text-text-secondary/40 hover:text-text-primary transition-colors">
+                    <ArrowUp size={18} />
+                  </button>
+                </div>
+                <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="flex items-center gap-2 text-[11px] text-text-secondary/40 hover:text-text-primary cursor-pointer transition-colors">
+                    <Plus size={14} />
+                    <span>Sources</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[11px] text-text-secondary/40">
+                    <LayoutGrid size={14} />
+                    <span>Default</span>
+                  </div>
+                </div>
+                <p className="text-[10px] text-text-secondary/20 text-center mt-4">
+                  Zenith can make mistakes. Double check important info.
+                </p>
+              </div>
+            </div>
+
+            {/* Right Document Column */}
+            <div className="flex-1 flex flex-col bg-bg-main">
+              <header className="h-14 flex items-center justify-between px-6 border-b border-black/5">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <button className="p-1.5 hover:bg-black/5 rounded-lg text-text-secondary/40 hover:text-text-primary transition-all">
+                      <X size={18} />
+                    </button>
+                    <button className="p-1.5 hover:bg-black/5 rounded-lg text-text-secondary/40 hover:text-text-primary transition-all">
+                      <Maximize2 size={18} />
+                    </button>
+                  </div>
+                  <div className="h-4 w-px bg-black/10" />
+                  <div className="flex flex-col">
+                    <h2 className="text-[13px] font-semibold text-text-primary">Business strategy 2025 - Improved Version</h2>
+                    <p className="text-[11px] text-text-secondary/40">Updated today at 09:39</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 bg-black/5 rounded-xl p-1">
+                    <button className="p-2 hover:bg-black/5 rounded-lg text-text-secondary/40 hover:text-text-primary transition-all">
+                      <History size={18} />
+                    </button>
+                    <button className="p-2 hover:bg-black/5 rounded-lg text-text-secondary/40 hover:text-text-primary transition-all">
+                      <Copy size={18} />
+                    </button>
+                    <button className="p-2 hover:bg-black/5 rounded-lg text-text-secondary/40 hover:text-text-primary transition-all">
+                      <Folder size={18} />
+                    </button>
+                    <button className="p-2 hover:bg-black/5 rounded-lg text-text-secondary/40 hover:text-text-primary transition-all">
+                      <Download size={18} />
+                    </button>
+                  </div>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-white border border-black/5 hover:bg-bg-main rounded-xl text-[13px] font-medium text-text-primary transition-all shadow-sm">
+                    <div className="w-4 h-4 bg-blue-500 rounded-sm flex items-center justify-center">
+                      <div className="w-2 h-2 bg-white rounded-full" />
+                    </div>
+                    <span>Open in Google Docs</span>
+                  </button>
+                  <button className="px-5 py-2 bg-text-primary text-white rounded-xl text-[13px] font-bold hover:opacity-90 transition-all shadow-sm">
+                    Share
+                  </button>
+                </div>
+              </header>
+
+              <div className="flex-1 overflow-y-auto p-12 custom-scrollbar">
+                <div className="max-w-[800px] mx-auto bg-white border border-black/5 rounded-[32px] p-16 shadow-2xl shadow-black/[0.03]">
+                  <div className="space-y-12">
+                    <h1 className="text-5xl font-bold tracking-tight text-text-primary leading-[1.1]">
+                      Cloud Native d.o.o. — Strategy 2025 (Improved Version)
+                    </h1>
+
+                    <div className="space-y-6">
+                      <h2 className="text-2xl font-bold text-text-primary">1. Purpose and Scope</h2>
+                      <p className="text-lg text-text-secondary/60 leading-relaxed">
+                        <span className="font-bold text-text-primary">This document provides a focused, execution-ready strategy for 2025.</span> It keeps your strong market analysis and service descriptions, but clarifies priorities, narrows scope, and adds concrete targets, owners, and timelines.
+                      </p>
+                    </div>
+
+                    <div className="space-y-6">
+                      <h2 className="text-2xl font-bold text-text-primary">2. Strategic Narrative (One Page)</h2>
+                      <div className="space-y-4">
+                        <h3 className="text-xl font-bold text-text-primary">Who we are and where we play</h3>
+                        <p className="text-lg text-text-secondary/60 leading-relaxed">
+                          Cloud Native d.o.o. is a specialized OpenShift and cloud-native consulting company, founded by Slovenian and Serbian technology leaders, focused on Southeast Europe (SEE) with selective expansion into the EU. 
+                          <span className="ml-2 px-2 py-0.5 bg-black/5 rounded text-[11px] font-medium text-text-secondary/40">Business strategy 2025</span>
+                          <span className="ml-2">We help enterprises modernize applications and platforms using OpenShift, Kubernetes, DevOps, and related technologies.</span>
+                        </p>
+                      </div>
+
+                      <div className="space-y-6 pt-4">
+                        <h3 className="text-xl font-bold text-text-primary">Core strategic intent for 2025</h3>
+                        <ol className="space-y-6 list-decimal pl-6 text-lg text-text-secondary/60">
+                          <li className="pl-2">
+                            Become the go-to OpenShift and cloud-native specialist for 5—10 flagship enterprise accounts in banking, telco, and public sector in SEE.
+                            <span className="ml-2 px-2 py-0.5 bg-black/5 rounded text-[11px] font-medium text-text-secondary/40">Business strategy 2025</span>
+                          </li>
+                          <li className="pl-2">
+                            Build repeatable, packaged services (Readiness Assessment, Platform Implementation, Application Modernization, Managed OpenShift) as the main revenue engine.
+                            <span className="ml-2 px-2 py-0.5 bg-black/5 rounded text-[11px] font-medium text-text-secondary/40">Business strategy 2025</span>
+                          </li>
+                          <li className="pl-2">
+                            Use Red Hat Premier partnership and training capability as the primary entry door and trust builder for new customers.
+                            <span className="ml-2 px-2 py-0.5 bg-black/5 rounded text-[11px] font-medium text-text-secondary/40">Business strategy 2025</span>
+                          </li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
